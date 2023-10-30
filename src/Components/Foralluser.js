@@ -109,7 +109,7 @@ const Foralluser = () => {
               <img
                 onClick={() => setPhoto(true)}
                 className=" w-full h-[400px]  object-cover cursor-pointer rounded-l-lg aspect-square"
-                src={"http://localhost:4000/uploads/" + hoteldata.photos[0]}
+                src={"https://airbnbclone-3off.onrender.com" + hoteldata.photos[0]}
               />
             </div>
           )}
@@ -119,7 +119,7 @@ const Foralluser = () => {
                 <img
                   onClick={() => setPhoto(true)}
                   className="w-full object-cover cursor-pointer h-[196px] aspect-square rounded-r-lg"
-                  src={"http://localhost:4000/uploads/" + hoteldata.photos[1]}
+                  src={"https://airbnbclone-3off.onrender.com" + hoteldata.photos[1]}
                 />
               </div>
             )}
@@ -128,7 +128,7 @@ const Foralluser = () => {
                 <img
                   onClick={() => setPhoto(true)}
                   className="w-full rounded-r-lg h-[196px] cursor-pointe object-cover aspect-square"
-                  src={"http://localhost:4000/uploads/" + hoteldata.photos[2]}
+                  src={"https://airbnbclone-3off.onrender.com" + hoteldata.photos[2]}
                 />
               </div>
             )}
