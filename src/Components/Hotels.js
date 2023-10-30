@@ -28,7 +28,7 @@ const Hotels =() => {
     {
       places.map((hotels)=>{
         return<Link to={"/information/accomodation/"+ hotels._id}><div className=' flex items-start justify-start flex-col gap-[4px]'>
-          <img className='rounded-2xl object-cover aspect-square' src={https://getit-two.vercel.app/uploads/"+ hotels.photos[0]}/>
+          <img className='rounded-2xl object-cover aspect-square' src={"https://getit-two.vercel.app/uploads/"+ hotels.photos[0]}/>
           <span className="font-bold ">{hotels.address}</span>
           <p className='text-[14px] text-slate-500'>{hotels.description.substring(0,24)}...</p>
           <p className='text-[14px] text-slate-500'>{hotels.extraInfo}</p>
