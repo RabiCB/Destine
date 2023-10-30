@@ -128,7 +128,7 @@ const Foralluser = () => {
                 <img
                   onClick={() => setPhoto(true)}
                   className="w-full rounded-r-lg h-[196px] cursor-pointe object-cover aspect-square"
-                  src={`https://airbnbclone-3off.onrender.com/uploads/{hoteldata.photos[2]}`}
+                  src={`https://airbnbclone-3off.onrender.com/uploads/${hoteldata.photos[2]}`}
                 />
               </div>
             )}
