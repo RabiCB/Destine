@@ -61,7 +61,7 @@ const Foralluser = () => {
             return (
               <img
                 className="rounded-lg h-auto w-full object-cover"
-                src={"https://airbnbclone-3off.onrender.com/uploads/image"}
+                src={`https://airbnbclone-3off.onrender.com/uploads/${image}`}
               />
             );
           })}
