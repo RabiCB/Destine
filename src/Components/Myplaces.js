@@ -115,7 +115,7 @@ const Myplaces = () => {
                             <img
                               className="w-full object-contain rounded-lg"
                               src={
-                                "http://localhost:4000/uploads/" +
+                                "https://airbnbclone-3off.onrender.com/uploads/" +
                                 placei.photos[0]
                               }
                               alt="picture"
