@@ -13,6 +13,10 @@ export const UserContextProvider=({children})=>{
         if(!user){
              axios.get("/profile").then(({data})=>{
                 setUser(data)
+
+                localStorage.setItem("user",data)
+
+                console.log(user,'dd')
              })
         }
 

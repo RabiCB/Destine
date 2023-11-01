@@ -5,14 +5,17 @@ import { BiMenu } from "react-icons/bi";
 import { RxAvatar } from "react-icons/rx";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useRef } from "react";
-import { Navigate, Link, useNavigate } from "react-router-dom";
+import { Navigate, Link, useNavigate, useNavigation } from "react-router-dom";
 import { User } from "../Auth/AuthContext";
 import axios from "axios";
+import Dialog from "@mui/material";
+import { Button, IconButton } from "@mui/material";
+import Modal from "./Modal";
 
 const Navbar = () => {
   const [profile, setProfile] = useState(false);
   const [redirect, setRedirect] = useState(null);
-
+const [open,setOpen]=useState(false)
   const { user, setUser } = User();
   const ref = useRef();
 
@@ -42,32 +45,59 @@ const Navbar = () => {
     }
   }
 
+
+
+  const [searchvalue,setSearchvalue]=useState('')
+
+
+  const handleSearch=()=>{
+
+   if(searchvalue){
+    navigate(`/search/${searchvalue}`)
+      
+
+   }
+    
+
+
+
+  }
+
+  const handleInputKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevent form submission
+      handleSearch()
+    }
+  };
   return (
     <>
-      <div className="flex fixed top-0  left-0 right-0 z-30 bg-gray-50 items-center overflow-hidden justify-between h-[72px]  px-12 border-none">
+      <div className="flex fixed top-0  left-0 right-0 z-30 bg-gray-50 items-center overflow-hidden justify-between h-[72px]  px-12 max-md:px-8 border-none">
         <Link to="/">
           <div className="flex gap-2 items-start justify-start">
-            <FaAirbnb fontSize="32px" className="text-red-500 text-bold" />
-            <span className="max-md:hidden font-bold text-xl  text-red-600">
-              airbnb
+            
+            <span className="font-bold text-xl  text-red-600">
+              DestinE
             </span>
           </div>
         </Link>
-        <div className="flex gap-2 items-center justify-center border-[1px] px-2 max-md:hidden py-[8px] shadow-gray-100  border-slate-300 rounded-full">
-          <div className="text-[12px]">Anywhere</div>
-          <span className="border-[1px] border-gray-400 h-[20px]"></span>
-          <div className="text-[12px]">Any where</div>
-          <span className="border-[1px] border-gray-400 h-[20px]"></span>
-          <div className="text-[12px]">Add guests</div>
-
-          <div className="bg-red-500 h-[24px] w-[24px] rounded-full flex items-center  justify-center text-white ">
-            <svg
+        <div className="flex gap-2 items-center justify-center border-[1px] px-2 max-md:hidden py-[4px] bg-white   border-slate-300 rounded-lg">
+        <input
+              type="text"
+              onKeyPress={handleInputKeyPress}
+             onChange={(e)=>setSearchvalue(e.target.value)}
+              className=" pl-2  w-full  border-none outline-none bg-none  rounded-lg h-[32px]"
+              placeholder="Search Destine "
+            />
+            <button onClick={()=>{
+              handleSearch()
+            }}>
+               <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-4 h-4 cursor-pointer"
+              className="w-5 h-5 cursor-pointer"
             >
               <path
                 strokeLinecap="round"
@@ -75,24 +105,34 @@ const Navbar = () => {
                 d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
               />
             </svg>
-          </div>
+            </button>
+
+         
         </div>
         <div className="flex gap-4 items-center justify-center ">
-          <div className="text-[14px] cursor-pointer">Airbnb your home</div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6 cursor-pointer"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"
-            />
-          </svg>
+          
+            <div  className="max-md:block hidden cursor-pointer">
+              <IconButton onClick={()=>{
+                setOpen(true)
+              }}>
+              <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-5 h-5 cursor-pointer"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+              />
+            </svg>
+              </IconButton>
+              
+            </div>
+          
 
           <div
             onClick={() => setProfile(!profile)}
@@ -164,12 +204,12 @@ const Navbar = () => {
                 >
                   Profile
                 </Link>
-                <a
+                <button
                   onClick={handlelogout}
                   className=" text-[14px]  w-[220px] hover:bg-white cursor-pointer pl-2  "
                 >
                   Log out
-                </a>
+                </button>
               </div>
             )}
             <hr className="w-full h-[2px] bg-gray-400 opacity-50" />
@@ -189,6 +229,8 @@ const Navbar = () => {
           ""
         )}
       </div>
+<Modal open={open} setOpen={setOpen} />
+      
     </>
   );
 };

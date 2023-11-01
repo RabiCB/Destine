@@ -9,6 +9,7 @@ const Signup = ({ setSignuppage, signuppage }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error,setError]=useState('')
   const navigate=useNavigate()
   async function handleSubmit(e) {
     e.preventDefault();
@@ -18,19 +19,22 @@ const Signup = ({ setSignuppage, signuppage }) => {
         email,
         password,
       });
-      alert("registerd sucessfully");
+      
       navigate("/login")
+
     } catch (e) {
-      alert("Register failed! try again");
+      
+      setError('Something went wrong try again')
+      
     }
   }
 
   return (
     <div className="flex justify-center items-center fixed top-[72px] bottom-0 left-0 right-0 bg-gray-100">
-      <div className=" max-sm:w-[400px] overflow-y-auto  opacity-100  text-black w-[480px] h-[500px]  rounded-lg z-40  bg-white">
+      <div className="  overflow-y-auto  opacity-100  text-black   rounded-lg z-40  bg-white">
         <div className="flex items-center py-4  justify-center">
-          {" "}
-          <span className="text-center font-bold">Log in or sign up</span>
+          
+          <span className="text-center font-bold">Log inj or sign up</span>
         </div>
         <hr className="h-[2px] mt-2 w-full bg-slate-200"></hr>
         <div className="mt-4 font-semibold ml-4"> Welcome to Airbnb </div>
@@ -61,6 +65,9 @@ const Signup = ({ setSignuppage, signuppage }) => {
             className="border-[0.4px] pl-4  w-full  border-black border-t-0 outline-none  rounded-lg h-[42px]"
             placeholder="Your password "
           />
+          {
+            error &&<p className="text-red-500 text-sm mt-2">{error}</p>
+          }
 
           <p className="text-[12px] mt-[2px]">
             We’ll call or text you to confirm your number. Standard message and

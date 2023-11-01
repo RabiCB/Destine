@@ -6,108 +6,129 @@ import axios from "axios";
 import "react-phone-number-input/style.css";
 import { Navigate, Link } from "react-router-dom";
 import { User } from "./AuthContext";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 const Login = ({ setLoginpage, loginpage }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
+  const [showpassword,setShowpassword]=useState(false)
+  const Navigateto=useNavigate()
+const [error,setError]=useState('')
+  const { setUser} = User();
 
-  const { setUser } = User();
-  async function hanldeLogin(e) {
-    e.preventDefault();
-    try {
-      const { data } = await axios.post("/login", { email, password });
-      alert("login sucess");
-      setRedirect(true);
-      setUser(data);
-    } catch (e) {
-      alert("login failed");
-    }
+const hanldeLogin = (event) => {
+  event.preventDefault();
+  try {
+   const { data } = axios.post("/login", {
+    email,
+    password,
+   }).then((res)=>{
+    window.localStorage.setItem("user", JSON.stringify(data?.response));
+    Navigateto("/");
+console.log(res)
+    console.log('ddddddddddddddddd')
+
+   })
+
+
+  
+  } catch (err) {
+
+    console.log(error)
   }
+ };
+ 
   //redirect or navigate goes here
   if (redirect) {
     return <Navigate to={"/"} />;
   }
   return (
     <>
-      <div className="flex justify-center items-center fixed top-[72px] bottom-0 left-0 right-0 bg-gray-100">
-        <div className="border-none max-sm:w-[400px]  overflow-y-auto  opacity-100  text-black w-[480px] h-[500px]  rounded-lg z-40   bg-white">
-          <div className="flex items-center py-4  justify-center">
-            {" "}
-            <span className="text-center font-bold">Log in or sign up</span>
+     <div className=" flex  bg-[#F5F5F7] p-4  items-center justify-center h-[100vh]">
+      <div className="flex flex-col  bg-white shadow-lg rounded-[10px] py-4">
+        <span className="text-center text-[#5C6574] text-xl font-bold ">
+          Sign In
+        </span>
+        <span className="text-center mt-2 text-[#5C6574] ">
+          Welcome back! Please enter your details
+        </span>
+
+        <form
+          onSubmit={hanldeLogin}
+          className="flex flex-col max-[400px]:w-[340px] max-sm:w-[380px] max-md:w-[460px]  w-[500px]  mt-[40px]  p-8 gap-7 m-2 shadow-myshadow rounded-[8px]"
+        >
+          <div className="flex flex-col">
+            <div className="flex flex-col gap-2">
+              <label className="text-[#5C6574] font-[500] " htmlFor="email">
+                E-mail
+              </label>
+              <input
+              
+                id="email"
+                className="border-[1px] border-[#DEDEDE] outline-[1px] outline-[#E63946] rounded-md p-2 w-full"
+                placeholder="Enter your email"
+                onChange={(e)=>setEmail(e.target.value)}
+
+
+              />
+            </div>
+            {error && (
+              <span className="text-red-600 text-[10px] mt-1.5 ml-0.5">
+                {error}
+              </span>
+            )}
           </div>
-          <hr className="h-[2px] mt-2 w-full bg-slate-200"></hr>
-          <div className="mt-4 font-semibold ml-4"> Welcome to Airbnb</div>
-          <div className="text-[12px] ml-4 mt-2">don't have an account? <Link to="/signup" className="font-semibold text-[14px]">Signup</Link></div>
 
-          <form
-            onSubmit={hanldeLogin}
-            className=" p-4 flex flex-col items-start justify-start "
-          >
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="border-[0.4px] pl-4  w-full  border-black outline-none  rounded-lg h-[42px]"
-              placeholder="Your email "
-            />
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="border-[0.4px] pl-4  w-full  border-black border-t-0 outline-none  rounded-lg h-[42px]"
-              placeholder="Your password "
-            />
+          <div className="flex flex-col">
+            <div className="flex flex-col gap-2" >
 
-            <p className="text-[12px] mt-[2px]">
-              We’ll call or text you to confirm your number. Standard message
-              and data rates apply. Privacy Policy
-            </p>
-            <button
-              type="submit"
-              className="bg-[#e31c5f] text-white w-full h-[42px] rounded-lg mt-4"
-            >
-              Continue
-            </button>
-            <div className="grid grid-cols-3 w-full place-content-center place-items-center grid-flow-row h-[10px] mt-4">
-              <span className="h-[1px] mt-4  w-[100%] bg-slate-400"></span>
-              <span className="text-[10px] text-slate-400">or</span>
-              <span className="h-[1px] mt-4  w-[100%] bg-slate-400"></span>
+            <label className="text-[#5C6574] font-[500] " htmlFor="password">
+                Password
+              </label>
+              <div className="relative flex items-center">
+              <input
+                id="password"
+                className="border-[1px] border-[#DEDEDE] outline-[1px] outline-[#E63946] rounded-md p-2 w-full"
+                placeholder="Enter your password"
+                type={showpassword?"text":"password"}
+                onChange={(e)=>setPassword(e.target.value)}
+                
+               >
+                  
+                </input>
+                <span className="absolute right-4" onClick={()=>setShowpassword(!showpassword)}>{showpassword?<AiFillEyeInvisible/>:<AiFillEye/>}</span>
+                </div>
+                
+              
+             
             </div>
-            <div className="flex flex-col justify-start items-start w-full gap-2  mt-6">
-              <div className="border-[1px] border-black flex items-center justify-center relative rounded-lg h-[42px] w-full">
-                <img
-                  className="absolute left-2 w-[15px] object-contain"
-                  src="https://cdn-icons-png.flaticon.com/512/124/124010.png"
-                ></img>
-                <span>continue with Facebook</span>
-              </div>
-              <div className="border-[1px] border-black flex items-center justify-center relative rounded-lg h-[42px] w-full">
-                <img
-                  className="absolute left-2 w-[15px] object-contain"
-                  src="https://cdn-icons-png.flaticon.com/512/281/281764.png"
-                ></img>
-                <span>continue with Google</span>
-              </div>
+            {error && (
+              <span className="text-red-600 ml-0.5 text-[10px] mt-1.5">
+                {error}
+              </span>
+            )}
+            
+            
+          </div>
 
-              <div className="border-[1px] border-black flex items-center justify-center relative rounded-lg h-[42px] w-full">
-                <img
-                  className="absolute left-2 w-[15px] object-contain"
-                  src="https://cdn-icons-png.flaticon.com/512/0/747.png"
-                ></img>
-                <span>continue with Apple </span>
-              </div>
-              <div className="border-[1px] border-black flex items-center justify-center relative rounded-lg h-[42px] w-full">
-                <img
-                  className="absolute left-2 w-[15px] object-contain"
-                  src="https://cdn-icons-png.flaticon.com/512/9387/9387371.png"
-                />
-                <span>continue with Email </span>
-              </div>
-            </div>
-          </form>
+          <button type="submit" className="bg-red-600 hover:bg-[#ce3340] py-2 rounded-[20px] text-white ">
+            Log in
+          </button>
+        </form>
+        <span className="text-red-600 ml-0.5 text-[10px] mt-1.5 text-center" >{error}</span>
+        <div className="flex items-center justify-center ml-3 mt-1">
+          <span className="text-sm  text-[#5C6574] font-semibold mr-1">
+            Don`t have an Account ?
+          </span>
+          <Link className="cursor-pointer text-[#E63946]" href="/register">
+            register
+          </Link>
         </div>
       </div>
+    </div>
+      
     </>
   );
 };

@@ -9,6 +9,7 @@ import Signup from "./Auth/Signup";
 import Profile from "./Auth/Profile";
 import Foralluser from "./Components/Foralluser";
 import Bookings from "./Components/Bookings";
+import Search from "./Components/Search";
 
 function App() {
   axios.defaults.baseURL = "https://airbnbclone-3off.onrender.com";
@@ -25,7 +26,7 @@ function App() {
             <Route path="/account/:subpage?" element={<Profile/>}/>
             <Route path="/account/:subpage/:action" element={<Profile/>}/>
             <Route path="/information/accomodation/:id" element={<Foralluser/>}/>
-            
+            <Route path="/search/:slug" element={<Search/>}/>
           </Routes>
         </UserContextProvider>
       </BrowserRouter>

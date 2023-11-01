@@ -3,21 +3,36 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Reserve from "./Reserve";
 import { ThreeDots } from "react-loader-spinner";
+import { useQuery } from "@tanstack/react-query";
 const Foralluser = () => {
   const { id } = useParams();
   const [hoteldata, setHotelData] = useState([]);
   const [Photo, setPhoto] = useState(false);
 
-  useEffect(() => {
-    if (!id) {
-      return;
-    }
-    axios.get(`/accomodation/${id}`).then(({ data }) => {
-      setHotelData(data);
-    });
-  }, [id]);
+  // useEffect(() => {
+  //   if (!id) {
+  //     return;
+  //   }
+  //   axios.get(`/accomodation/${id}`).then(({ data }) => {
+  //     setHotelData(data);
+  //   });
+  // }, [id]);
 
-  if (hoteldata.length === 0) {
+  const getDetail=async()=>{
+    const res = await fetch(`https://airbnbclone-3off.onrender.com/accomodation/${id}`);
+    
+    return res?.json()
+    
+
+  }
+
+  const {data,isLoading}=useQuery({queryKey:['getTrendingdata',id],queryFn:getDetail})
+
+  
+
+
+
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center h-[50vh]">
         <ThreeDots
@@ -36,7 +51,7 @@ const Foralluser = () => {
 
   if (Photo) {
     return (
-      <div className="relative flex justify-center items-center flex-col w-full bg-black right-0 p-6 left-0 gap-4 top-[74px]">
+      <div className="relative flex justify-center items-center flex-col w-full bg-black right-0 p-4 left-0 gap-4 top-[74px]">
         <div
           onClick={() => setPhoto(false)}
           className="fixed top-[90px] left-[40px] bg-white p-2 rounded-md  cursor-pointer"
@@ -56,17 +71,19 @@ const Foralluser = () => {
             />
           </svg>
         </div>
-        {hoteldata?.photos?.length > 0 &&
-          hoteldata.photos.map((image) => {
+        {data?.photos?.length > 0 &&
+          data?.photos.map((image) => {
             return (
               <img
+              loading="lazy"
                 className="rounded-lg h-auto w-full object-cover"
                 src={`https://airbnbclone-3off.onrender.com/uploads/${image}`}
+                alt="hotelimg"
               />
             );
           })}
-        <div className="fixed top-[100px] text-white font-semibold ">
-          Photos of {hoteldata.title}
+        <div className="fixed top-[100px] text-[#ccc4c4] font-semibold ">
+          Photos of {data?.title}
         </div>
       </div>
     );
@@ -75,10 +92,10 @@ const Foralluser = () => {
   return (
     <div className="relative top-[72px] bottom-0 bg-slate-200  right-0 left-0 ">
       <div className="p-16  flex flex-col gap-2  max-md:p-8 max-lg:p-12  ">
-        <h2 className="3xl">{hoteldata.title}</h2>
+        <h2 className="text-xl">{data?.title}</h2>
         <a
           className=" font-bold cursor-pointer underline"
-          href={`https://www.google.com/maps/place/${hoteldata.address}`}
+          href={`https://www.google.com/maps/place/${data?.address}`}
         >
           <div className="flex gap-2">
             <svg
@@ -100,40 +117,36 @@ const Foralluser = () => {
                 d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
               />
             </svg>
-            {hoteldata.address}
+            {data?.address}
           </div>
         </a>
-        <div className="grid grid-cols-[2fr_1fr] relative gap-2 grid-rows-1 ">
-          {hoteldata.photos?.[0] && (
+        <div className="grid grid-cols-[2fr_1fr] max-sm:grid-cols-1 max-sm:gap-4   relative gap-2  ">
+          {data?.photos?.[0] && (
             <div>
               <img
                 onClick={() => setPhoto(true)}
-                className=" w-full h-[400px]  object-cover cursor-pointer rounded-l-lg aspect-square"
-                src={`https://airbnbclone-3off.onrender.com/uploads/${hoteldata.photos[0]}`}
+                className=" w-full h-[400px] max-sm:h-[240px] object-cover cursor-pointer rounded-l-lg aspect-square"
+                src={`https://airbnbclone-3off.onrender.com/uploads/${data?.photos[0]}`}
+                alt="hostelimg1"
+                loading="lazy"
               />
             </div>
           )}
-          <div className="grid grid-cols-1 cursor-pointer gap-2 ">
-            {hoteldata.photos?.[1] && (
+          
+            {data?.photos?.[1] && (
               <div>
                 <img
                   onClick={() => setPhoto(true)}
-                  className="w-full object-cover cursor-pointer h-[196px] aspect-square rounded-r-lg"
-                  src={`https://airbnbclone-3off.onrender.com/uploads/${hoteldata.photos[1]}`}
+                  className="w-full object-cover max-sm:h-[240px] cursor-pointer h-[400px] aspect-square rounded-r-lg"
+                  src={`https://airbnbclone-3off.onrender.com/uploads/${data.photos[1]}`}
+                  alt="hotelimg2"
+                  loading="lazy"
                 />
               </div>
             )}
-            {hoteldata.photos?.[2] && (
-              <div>
-                <img
-                  onClick={() => setPhoto(true)}
-                  className="w-full rounded-r-lg h-[196px] cursor-pointe object-cover aspect-square"
-                  src={`https://airbnbclone-3off.onrender.com/uploads/${hoteldata.photos[2]}`}
-                />
-              </div>
-            )}
-          </div>
-          {hoteldata.photos && (
+           
+         
+          {data?.photos && (
             <div
               onClick={() => setPhoto(true)}
               className="absolute bottom-[12px] p-2 cursor-pointer rounded-md bg-black right-2"
@@ -162,23 +175,23 @@ const Foralluser = () => {
             <div className="flex flex-col mt-4">
               <h2 className="font-bold">Desciption</h2>
               <p className="text-[14px] font-semibold">
-                {hoteldata.description}
+                {data?.description}
               </p>
             </div>
             <div className="flex flex-col font-semibold ">
-              <span>checkin : {hoteldata.checkIn}</span>
-              <span>checkout: {hoteldata.checkOut}</span>
-              <span>Max number of peoples: {hoteldata.maxGuests}</span>
+              <span>checkin : {data?.checkIn}</span>
+              <span>checkout: {data?.checkOut}</span>
+              <span>Max number of peoples: {data?.maxGuests}</span>
             </div>
           </div>
-          <>
-            <Reserve hoteldata={hoteldata} />
-          </>
+          {/* <>
+            <Reserve hoteldata={data} />
+          </> */}
         </div>
         {hoteldata.extraInfo && (
           <div className="flex flex-col mt-2 bg-white w-full rounded-lg p-2">
             <h2 className="font-bold">Extra Information</h2>
-            <p className="text-[14px] font-semibold">{hoteldata.extraInfo}</p>
+            <p className="text-[14px] font-semibold">{data?.extraInfo}</p>
           </div>
         )}
       </div>
