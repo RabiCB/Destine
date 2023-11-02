@@ -71,7 +71,7 @@ const [open,setOpen]=useState(false)
   };
   return (
     <>
-      <div className="flex fixed top-0  left-0 right-0 z-30 bg-gray-50 items-center overflow-hidden justify-between h-[72px]  px-12 max-md:px-8 border-none">
+      <div className="flex fixed top-[-4px]  left-0 right-0 z-30 bg-gray-50 items-center overflow-hidden justify-between h-[72px]  px-12 max-md:px-8 border-none">
         <Link to="/">
           <div className="flex gap-2 items-start justify-start">
             
