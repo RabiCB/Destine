@@ -65,13 +65,17 @@ const [open,setOpen]=useState(false)
 
   const handleInputKeyPress = (event) => {
     if (event.key === 'Enter') {
-      event.preventDefault(); // Prevent form submission
-      handleSearch()
+      event.preventDefault(); 
+      // Prevent form submission
+      if(searchvalue){
+        handleSearch()
+      }
+      
     }
   };
   return (
     <>
-      <div className="flex fixed top-[-4px]  left-0 right-0 z-30 bg-gray-50 items-center overflow-hidden justify-between h-[72px]  px-12 max-md:px-8 border-none">
+      <div className="flex sticky top-0 z-30 bg-gray-50 items-center overflow-hidden justify-between h-[72px]  px-12 max-md:px-8 border-none">
         <Link to="/">
           <div className="flex gap-2 items-start justify-start">
             

@@ -90,7 +90,7 @@ const Foralluser = () => {
   }
 
   return (
-    <div className="relative top-[72px] bottom-0 bg-slate-200  right-0 left-0 ">
+    <div className="relative bg-slate-200   ">
       <div className="p-16  flex flex-col gap-2  max-md:p-8 max-lg:p-12  ">
         <h2 className="text-xl">{data?.title}</h2>
         <a
