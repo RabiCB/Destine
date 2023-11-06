@@ -31,7 +31,7 @@ const Hotels =() => {
 
 
    if(isLoading){
-    return <div className='flex items-center justify-center h-[50vh]'><ThreeDots 
+    return <div className='flex items-center justify-center h-[100vh]'><ThreeDots 
     height="80" 
     width="80" 
     radius="9"
