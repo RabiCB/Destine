@@ -1,3 +1,3 @@
 export const apis={
-    url:"http://localhost:4000"
+    url:"https://airbnbclone-3off.onrender.com"
 }
