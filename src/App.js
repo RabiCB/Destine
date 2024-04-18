@@ -12,7 +12,9 @@ import Bookings from "./Components/Bookings";
 import Search from "./Components/Search";
 
 function App() {
-  axios.defaults.baseURL = "https://airbnbclone-3off.onrender.com";
+  axios.defaults.baseURL = "http://localhost:4000";
+
+ 
   axios.defaults.withCredentials = true;
   return (
     <>
@@ -20,7 +22,7 @@ function App() {
         <UserContextProvider>
           <Navbar/>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home/>} />
             <Route path="/login" element={<Login/>}/>
             <Route path="/signup" element={<Signup/>}/>
             <Route path="/account/:subpage?" element={<Profile/>}/>

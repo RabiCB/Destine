@@ -2,11 +2,15 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import dayjs from "dayjs";
-
+import Cookies from "js-cookie"
 const Bookings = () => {
   const [bookings, setBookings] = useState([]);
   useEffect(() => {
-    axios.get("/bookings").then((response) => {
+    axios.get("/bookings",{
+      headers:{
+        Authorization:"Bearer " + Cookies.get("user_id"),
+      }
+    }).then((response) => {
       setBookings(response.data);
     });
   }, []);

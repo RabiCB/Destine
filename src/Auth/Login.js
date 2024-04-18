@@ -8,7 +8,7 @@ import { Navigate, Link } from "react-router-dom";
 import { User } from "./AuthContext";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-
+import Cookies from 'js-cookie';
 const Login = ({ setLoginpage, loginpage }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,16 +18,24 @@ const Login = ({ setLoginpage, loginpage }) => {
 const [error,setError]=useState('')
   const { setUser} = User();
 
-const hanldeLogin = (event) => {
+
+  const handleSetCookie = (token) => {
+    // Set a cookie named 'myCookie' with the value from the input field
+    Cookies.set('user_id', token);
+  };
+const hanldeLogin =async (event) => {
   event.preventDefault();
   try {
-   const { data } = axios.post("/login", {
+    await axios.post("/login", {
     email,
     password,
    }).then((res)=>{
-    window.localStorage.setItem("user", JSON.stringify(data?.response));
+  
+    handleSetCookie(res.data?.token)
+    
+    setUser(res?.data?.token)
     Navigateto("/");
-console.log(res)
+
     console.log('ddddddddddddddddd')
 
    })

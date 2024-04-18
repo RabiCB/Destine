@@ -11,6 +11,7 @@ import axios from "axios";
 import Dialog from "@mui/material";
 import { Button, IconButton } from "@mui/material";
 import Modal from "./Modal";
+import Cookies from "js-cookie"
 
 const Navbar = () => {
   const [profile, setProfile] = useState(false);
@@ -38,6 +39,7 @@ const [open,setOpen]=useState(false)
     try {
       await axios.post("/logout");
       setUser(null);
+      Cookies.remove("user_id")
       navigate("/");
       setProfile(false);
     } catch (err) {
@@ -75,7 +77,7 @@ const [open,setOpen]=useState(false)
   };
   return (
     <>
-      <div className="flex sticky top-0 z-30 bg-gray-50 items-center overflow-hidden justify-between h-[72px]  px-12 max-md:px-8 border-none">
+      <div className="flex z-30 bg-gray-50 items-center overflow-hidden justify-between h-[72px]  px-12 max-md:px-8 border-none">
         <Link to="/">
           <div className="flex gap-2 items-start justify-start">
             

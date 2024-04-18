@@ -2,12 +2,14 @@ import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { ThreeDots } from 'react-loader-spinner'
 import { Link, useParams } from 'react-router-dom'
+import { apis } from '../constants'
 
 const Search = () => {
 
     const {slug}=useParams()
+    
     const getSearch=async()=>{
-        const res = await fetch(`https://airbnbclone-3off.onrender.com/search/${slug}`);
+        const res = await fetch(`${apis.url}/search/${slug}`);
         
         return res?.json()
         

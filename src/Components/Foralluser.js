@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import Reserve from "./Reserve";
 import { ThreeDots } from "react-loader-spinner";
 import { useQuery } from "@tanstack/react-query";
+import { apis } from "../constants";
 const Foralluser = () => {
   const { id } = useParams();
   const [hoteldata, setHotelData] = useState([]);
@@ -19,7 +20,7 @@ const Foralluser = () => {
   // }, [id]);
 
   const getDetail=async()=>{
-    const res = await fetch(`https://airbnbclone-3off.onrender.com/accomodation/${id}`);
+    const res = await fetch(`${apis.url}/accomodation/${id}`);
     
     return res?.json()
     

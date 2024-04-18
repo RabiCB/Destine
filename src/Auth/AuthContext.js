@@ -1,6 +1,6 @@
 import axios from "axios";
 import {useEffect,useState,useContext,createContext} from "react"
-
+import Cookies from 'js-cookie';
 export const UserContext=createContext({})
 
 export function User(){
@@ -10,17 +10,26 @@ export const UserContextProvider=({children})=>{
     const [user,setUser]=useState(null)
     const[place,setPlace]=useState([])
     useEffect(()=>{
-        if(!user){
-             axios.get("/profile").then(({data})=>{
-                setUser(data)
+        let cookie=Cookies.get("user_id")
+      
+             axios.get("/profile",{
+                headers:{
+                    "Content-Type":"application/json",
+                    "Authorization":"Bearer "+ cookie
+                }
+             }).then((res)=>{
+                setUser(res?.data)
+               
+                
 
-                localStorage.setItem("user",data)
+                localStorage.setItem("user",res?.data)
 
-                console.log(user,'dd')
+             
              })
-        }
+    
 
-    },[])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[Cookies.get("user_id")])
    
 
     return(
@@ -31,3 +40,4 @@ export const UserContextProvider=({children})=>{
     )
 
 }
+
