@@ -10,9 +10,10 @@ import Profile from "./Auth/Profile";
 import Foralluser from "./Components/Foralluser";
 import Bookings from "./Components/Bookings";
 import Search from "./Components/Search";
+import { apis } from "./constants";
 
 function App() {
-  axios.defaults.baseURL = "http://localhost:4000";
+  axios.defaults.baseURL = `${apis.url}`;
 
  
   axios.defaults.withCredentials = true;
